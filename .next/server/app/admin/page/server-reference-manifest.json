@@ -1,0 +1,16 @@
+{
+  "node": {
+    "40c2bbca4c237eb8b7ee1e5499a81e9eeaf2147a21": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/ai/flows/ai-assisted-field-completion.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      }
+    }
+  },
+  "edge": {}
+}
