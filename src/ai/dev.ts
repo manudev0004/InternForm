@@ -1,0 +1,1 @@
+import '@/ai/flows/ai-assisted-field-completion.ts';

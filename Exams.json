@@ -1,0 +1,909 @@
+{
+  "exams": [
+    {
+      "id": 1,
+      "name": "SSC Exams",
+      "code": "SSC",
+      "sub_exams": [
+        { "id": 1, "name": "SSC GD Constable", "code": "SSC-GDC" },
+        { "id": 2, "name": "SSC CGL", "code": "SSC-CGL" },
+        { "id": 3, "name": "SSC Selection Post", "code": "SSC-SEL" },
+        { "id": 4, "name": "SSC CHSL", "code": "SSC-CHSL" },
+        { "id": 5, "name": "SSC CPO", "code": "SSC-CPO" },
+        { "id": 6, "name": "SSC MTS", "code": "SSC-MTS" },
+        { "id": 7, "name": "Delhi Police Constable", "code": "SSC-DPC" },
+        { "id": 8, "name": "SSC Stenographer", "code": "SSC-STENO" },
+        { "id": 9, "name": "Delhi Police HeadConstable", "code": "SSC-DPHC" },
+        {
+          "id": 10,
+          "name": "SSC HeadConstableAWO TPO",
+          "code": "SSC-HCAWOTPO"
+        },
+        { "id": 11, "name": "SSC JE CE", "code": "SSC-JECE" },
+        { "id": 12, "name": "SSC JE EE", "code": "SSC-JEEE" },
+        { "id": 13, "name": "SSC JE ME", "code": "SSC-JEME" },
+        { "id": 14, "name": "RSMSSB JE", "code": "SSC-RSMJE" },
+        { "id": 15, "name": "SSC JHT", "code": "SSC-JHT" },
+        { "id": 16, "name": "CSIR ASO", "code": "SSC-CSIRASO" },
+        { "id": 17, "name": "IB ACIO", "code": "SSC-IBACIO" },
+        { "id": 18, "name": "SSC Scientific Assistant", "code": "SSC-SA" },
+        { "id": 19, "name": "IB Security Assistant", "code": "SSC-IBSA" },
+        {
+          "id": 20,
+          "name": "Supreme Court Junior Court Assistant",
+          "code": "SSC-SCJCA"
+        },
+        { "id": 21, "name": "Delhi Forest Guard", "code": "SSC-DFG" },
+        { "id": 22, "name": "NBE", "code": "SSC-NBE" },
+        { "id": 23, "name": "SSC JE", "code": "SSC-JE" },
+        { "id": 24, "name": "Supreme Court Law Clerk", "code": "SSC-SCLC" },
+        { "id": 25, "name": "SSC Havaldar", "code": "SSC-HVD" },
+        { "id": 26, "name": "NTA ARPIT", "code": "SSC-NTAARP" },
+        { "id": 27, "name": "Delhi Police MTS", "code": "SSC-DPMTS" },
+        { "id": 28, "name": "Delhi Police Driver", "code": "SSC-DPD" },
+        {
+          "id": 29,
+          "name": "NTA Delhi University Non-Teaching",
+          "code": "SSC-NTADUNT"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Banking Exams",
+      "code": "BNK",
+      "sub_exams": [
+        { "id": 1, "name": "SBI Clerk", "code": "BNK-SBIC" },
+        { "id": 2, "name": "SBI PO", "code": "BNK-SBIPO" },
+        { "id": 3, "name": "IBPS PO", "code": "BNK-IBPSPO" },
+        { "id": 4, "name": "IBPS Clerk", "code": "BNK-IBPSC" },
+        { "id": 5, "name": "RRB Office Assistant", "code": "BNK-RRBOA" },
+        { "id": 6, "name": "RRB OFFicer Scale -I", "code": "BNK-RRBOS1" },
+        { "id": 7, "name": "IDBI Executive", "code": "BNK-IDBIE" },
+        { "id": 8, "name": "Bank of India PO", "code": "BNK-BOIPO" },
+        { "id": 9, "name": "SBI Apprentice", "code": "BNK-SBIAPP" },
+        { "id": 10, "name": "SIDBI Assistant Manager", "code": "BNK-SIDBIAM" },
+        { "id": 11, "name": "RBI Grade B", "code": "BNK-RBIGB" },
+        {
+          "id": 12,
+          "name": "MP Cooperative Bank Committee",
+          "code": "BNK-MPCBC"
+        },
+        { "id": 13, "name": "EPFO Stenographer", "code": "BNK-EPFOS" },
+        { "id": 14, "name": "ECGC PO", "code": "BNK-ECGCPO" },
+        { "id": 15, "name": "Nainital Bank PO", "code": "BNK-NTBPO" },
+        { "id": 16, "name": "Nainital BankClerk", "code": "BNK-NTBC" },
+        { "id": 17, "name": "IDBI Assistant Manager", "code": "BNK-IDBIAM" },
+        { "id": 18, "name": "MP Cooperative Bank Clerk", "code": "BNK-MPCBC" },
+        { "id": 19, "name": "Syndicate Bank PO", "code": "BNK-SYNBPO" },
+        { "id": 20, "name": "EPFO SSA", "code": "BNK-EPFOSSA" },
+        { "id": 21, "name": "KSCB Clerk", "code": "BNK-KSCBC" },
+        { "id": 22, "name": "PSCB Clerk Cum DEO", "code": "BNK-PSCBCD" },
+        {
+          "id": 23,
+          "name": "CG Apex Bank Office Assistant",
+          "code": "BNK-CGABOA"
+        },
+        { "id": 24, "name": "EPFO Assistant", "code": "BNK-EPFOA" },
+        { "id": 25, "name": "MP Cooperative BankPO", "code": "BNK-MPCBPO" },
+        { "id": 26, "name": "HPSCB Assistant Manager", "code": "BNK-HPSCBAM" },
+        {
+          "id": 27,
+          "name": "CG Apex Bank General Assistant",
+          "code": "BNK-CGABGA"
+        },
+        { "id": 28, "name": "IBPS SO", "code": "BNK-IBPSSO" },
+        {
+          "id": 29,
+          "name": "Bank of Maharashtra Generalist Officer",
+          "code": "BNK-BOMGO"
+        },
+        { "id": 30, "name": "PSCB", "code": "BNK-PSCB" },
+        { "id": 31, "name": "Nainital Bank", "code": "BNK-NTB" },
+        { "id": 32, "name": "RSCB", "code": "BNK-RSCB" },
+        {
+          "id": 33,
+          "name": "Karnataka State APEX Bank Assistant",
+          "code": "BNK-KSABA"
+        },
+        { "id": 34, "name": "SEBI Grade A", "code": "BNK-SEBIGA" },
+        {
+          "id": 35,
+          "name": "Agricultural Field Officer - Scale I",
+          "code": "BNK-AFOS1"
+        },
+        { "id": 36, "name": "ITOfficer - Scale I", "code": "BNK-ITOS1" }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Civil services Exams",
+      "code": "CSE",
+      "sub_exams": [
+        { "id": 1, "name": "UPSC Civil Services", "code": "CSE-UPSCCS" },
+        { "id": 2, "name": "BPSC Exam", "code": "CSE-BPSC" },
+        { "id": 3, "name": "UPPSC", "code": "CSE-UPPSC" },
+        { "id": 4, "name": "MPPSC State Service", "code": "CSE-MPPSCS" },
+        { "id": 5, "name": "RPSC RAS", "code": "CSE-RPSCRAS" },
+        { "id": 6, "name": "UPSC CAPF AC", "code": "CSE-UPSCCAPF" },
+        { "id": 7, "name": "MPSC State Service", "code": "CSE-MPSCS" },
+        { "id": 8, "name": "UPPSC RO ARO", "code": "CSE-UPPSCROA" },
+        { "id": 9, "name": "UPSC EPFO", "code": "CSE-UPSCEPFO" },
+        { "id": 10, "name": "WBCS", "code": "CSE-WBCS" },
+        { "id": 11, "name": "JPSC Civil Services", "code": "CSE-JPSCCS" },
+        { "id": 12, "name": "APPSC Group1", "code": "CSE-APPSCG1" },
+        { "id": 13, "name": "TSPSC Group1", "code": "CSE-TSPSCG1" },
+        { "id": 14, "name": "CGPSC", "code": "CSE-CGPSC" },
+        { "id": 15, "name": "TNPSC Group1", "code": "CSE-TNPSCG1" },
+        { "id": 16, "name": "BPSC CDPO", "code": "CSE-BPSCCDPO" },
+        { "id": 17, "name": "JPSC CDPO", "code": "CSE-JPSCCDPO" },
+        { "id": 18, "name": "UPSC APFC", "code": "CSE-UPSCAPFC" },
+        { "id": 19, "name": "Haryana Civil Services", "code": "CSE-HCS" },
+        {
+          "id": 20,
+          "name": "BPSC District Art Culture Officer",
+          "code": "CSE-BPSCDACO"
+        },
+        { "id": 21, "name": "MPPSC Forest Service", "code": "CSE-MPPSCFS" },
+        { "id": 22, "name": "UKPSC Lower PCS", "code": "CSE-UKPSCLPCS" },
+        {
+          "id": 23,
+          "name": "UKPSC Combined Upper Subordinate",
+          "code": "CSE-UKPSCCUS"
+        },
+        { "id": 24, "name": "OPSC OAS", "code": "CSE-OPSCOAS" },
+        { "id": 25, "name": "KPSC KAS", "code": "CSE-KPSCKAS" },
+        { "id": 26, "name": "HPPSC HPAS", "code": "CSE-HPPSCHPAS" },
+        { "id": 27, "name": "Punjab Civil Service", "code": "CSE-PCS" },
+        { "id": 28, "name": "GPSC", "code": "CSE-GPSC" },
+        {
+          "id": 29,
+          "name": "Gujarat Administrative Service",
+          "code": "CSE-GAS"
+        },
+        { "id": 30, "name": "KPSC Group A", "code": "CSE-KPSCGA" },
+        { "id": 31, "name": "JKPSC KAS", "code": "CSE-JKPSCKAS" },
+        { "id": 32, "name": "Kerala PSC KAS", "code": "CSE-KPSCKAS" },
+        { "id": 33, "name": "Manipur PSC", "code": "CSE-MPSC" },
+        { "id": 34, "name": "UPSC IFS", "code": "CSE-UPSCIFS" },
+        {
+          "id": 35,
+          "name": "UPSC Combined Geo Scientist",
+          "code": "CSE-UPSCCGS"
+        },
+        { "id": 36, "name": "Arunachal Pradesh PSC", "code": "CSE-APPSC" },
+        { "id": 37, "name": "Tripura Civil Service", "code": "CSE-TCS" },
+        { "id": 38, "name": "UPSC IES ISS", "code": "CSE-UPSCIESISS" },
+        {
+          "id": 39,
+          "name": "UPSC Assistant Labour Commissioner",
+          "code": "CSE-UPSCALC"
+        },
+        { "id": 40, "name": "UPSC CMS", "code": "CSE-UPSCCMS" },
+        { "id": 41, "name": "UPSC Air Safety Officer", "code": "CSE-UPSCASO" },
+        {
+          "id": 42,
+          "name": "UPSC Assistant Public Prosecutor",
+          "code": "CSE-UPSCAPP"
+        },
+        { "id": 43, "name": "UPSC SO Steno", "code": "CSE-UPSCSOS" }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Railway Exams",
+      "code": "RLY",
+      "sub_exams": [
+        { "id": 1, "name": "RRB Group D", "code": "RLY-RRBGD" },
+        { "id": 2, "name": "RRB NTPC", "code": "RLY-RRBNTPC" },
+        { "id": 3, "name": "RPF Constable", "code": "RLY-RPFC" },
+        { "id": 4, "name": "RRB ALP", "code": "RLY-RRBALP" },
+        { "id": 5, "name": "RRB Technician", "code": "RLY-RRBTECH" },
+        { "id": 6, "name": "RPF SI", "code": "RLY-RPFSI" },
+        { "id": 7, "name": "RRB JE", "code": "RLY-RRBJE" },
+        { "id": 8, "name": "RRB Technician Grade1", "code": "RLY-RRBTG1" },
+        { "id": 9, "name": "Railway GDCE", "code": "RLY-GDCE" },
+        { "id": 10, "name": "RRB Junior Translator", "code": "RLY-RRBJT" },
+        {
+          "id": 11,
+          "name": "RRB Ministerial and Isolated Category",
+          "code": "RLY-RRBMIC"
+        },
+        { "id": 12, "name": "RRB Junior Stenographer", "code": "RLY-RRBJS" },
+        { "id": 13, "name": "DFCCIL Executive", "code": "RLY-DFCCILE" },
+        { "id": 14, "name": "RPSF", "code": "RLY-RPSF" },
+        { "id": 15, "name": "DFCCIL MTS", "code": "RLY-DFCCILMTS" },
+        { "id": 16, "name": "Railway TTE", "code": "RLY-RLYTTE" },
+        { "id": 17, "name": "RRB JE EC", "code": "RLY-RRBJEEC" },
+        { "id": 18, "name": "Railway TC", "code": "RLY-RLYTC" },
+        { "id": 19, "name": "RRB ASM", "code": "RLY-RRBASM" },
+        { "id": 20, "name": "RITES Junior Assistant", "code": "RLY-RITESJA" },
+        { "id": 21, "name": "RRB JE EE", "code": "RLY-RRBJEEE" },
+        { "id": 22, "name": "RRB JE ME", "code": "RLY-RRBJEME" },
+        { "id": 23, "name": "RRB JE CE", "code": "RLY-RRBJECE" },
+        { "id": 24, "name": "DFCCIL Operations BD", "code": "RLY-DFCCILOBD" },
+        { "id": 25, "name": "MPMRCL Supervisor", "code": "RLY-MPMRCLS" },
+        { "id": 26, "name": "RRB JE IT", "code": "RLY-RRBJEIT" },
+        { "id": 27, "name": "IRCON JE", "code": "RLY-IRCONJE" },
+        { "id": 28, "name": "IRCON AE", "code": "RLY-IRCONAE" },
+        { "id": 29, "name": "RITES Engineer", "code": "RLY-RITESENG" },
+        { "id": 30, "name": "RailTel Deputy Manager", "code": "RLY-RTELDM" },
+        {
+          "id": 31,
+          "name": "RailTel Corporation of India Limited",
+          "code": "RLY-RTCIL"
+        },
+        { "id": 32, "name": "RPF", "code": "RLY-RPF" },
+        { "id": 33, "name": "Railway Pharmacist", "code": "RLY-RLYPHARM" },
+        {
+          "id": 34,
+          "name": "DFCCIL Junior Executive",
+          "code": "RLY-DFCCILJEXA"
+        },
+        { "id": 35, "name": "RRB Paramedical Staff", "code": "RLY-RRBPMS" },
+        { "id": 36, "name": "Gujarat Metro SCTO", "code": "RLY-GMSCTO" },
+        { "id": 37, "name": "Railway Lab Assistant", "code": "RLY-RLYLA" },
+        { "id": 38, "name": "DFCCIL Junior Manager", "code": "RLY-DFCCILJM" },
+        { "id": 39, "name": "DMRC CRA", "code": "RLY-DMRCCRA" },
+        {
+          "id": 40,
+          "name": "RRB Health and Malaria Inspector",
+          "code": "RLY-RRBHMI"
+        },
+        { "id": 41, "name": "UPMRC Station Controller", "code": "RLY-UPMRCSC" },
+        { "id": 42, "name": "Gujarat Metro", "code": "RLY-GM" },
+        { "id": 43, "name": "DFCCIL Recruitment", "code": "RLY-DFCCILR" }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Defence Exams",
+      "code": "DEF",
+      "sub_exams": [
+        { "id": 1, "name": "CDS", "code": "DEF-CDS" },
+        { "id": 2, "name": "Airforce Group X", "code": "DEF-AFGX" },
+        { "id": 3, "name": "NDA", "code": "DEF-NDA" },
+        { "id": 4, "name": "Airforce Group Y", "code": "DEF-AFGY" },
+        { "id": 5, "name": "Army GD Agniveer", "code": "DEF-AGDA" },
+        { "id": 6, "name": "BSF Head Constable", "code": "DEF-BSFHC" },
+        { "id": 7, "name": "ITBP Constable", "code": "DEF-ITBPC" },
+        { "id": 8, "name": "AFCAT", "code": "DEF-AFCAT" },
+        { "id": 9, "name": "CISF Constable", "code": "DEF-CISFC" },
+        { "id": 10, "name": "UPSC CAPF AC", "code": "DEF-UPSCCAPFAC" },
+        { "id": 11, "name": "Army Tradesman Agniveer", "code": "DEF-ATA" },
+        { "id": 12, "name": "ITBP Head Constable", "code": "DEF-ITBPHC" },
+        { "id": 13, "name": "Indian Airforce Agniveer", "code": "DEF-IAFA" },
+        { "id": 14, "name": "Indian Army Agniveer", "code": "DEF-IAA" },
+        { "id": 15, "name": "Army Technical Agniveer", "code": "DEF-ATECA" },
+        {
+          "id": 16,
+          "name": "Indian Army Nursing Assistant",
+          "code": "DEF-IANA"
+        },
+        { "id": 17, "name": "CISF Head Constable", "code": "DEF-CISFHC" },
+        { "id": 18, "name": "Territorial Army", "code": "DEF-TA" },
+        { "id": 19, "name": "CRPF Constable", "code": "DEF-CRPFC" },
+        { "id": 20, "name": "CRPF Head Constable", "code": "DEF-CRPFHC" },
+        { "id": 21, "name": "Army Clerk Agniveer", "code": "DEF-ACA" },
+        { "id": 22, "name": "ITBP ConstableTradesman", "code": "DEF-ITBPCT" },
+        { "id": 23, "name": "BSF Constable", "code": "DEF-BSFC" },
+        { "id": 24, "name": "CISF Fireman", "code": "DEF-CISFF" },
+        { "id": 25, "name": "CRPF Paramedical Staff", "code": "DEF-CRPFPMS" },
+        { "id": 26, "name": "Navy MR Agniveer", "code": "DEF-NMRA" },
+        {
+          "id": 27,
+          "name": "SSB Service Selection Board",
+          "code": "DEF-SSBSSB"
+        },
+        { "id": 28, "name": "SSB Constable", "code": "DEF-SSBC" },
+        {
+          "id": 29,
+          "name": "Indian Coast Guard Navik GD",
+          "code": "DEF-ICGNGD"
+        },
+        { "id": 30, "name": "CISF Tradesman", "code": "DEF-CISFT" },
+        { "id": 31, "name": "SSB HeadConstable", "code": "DEF-SSBHC" },
+        {
+          "id": 32,
+          "name": "Indian Coast Guard Assistant Commandant",
+          "code": "DEF-ICGAC"
+        },
+        { "id": 33, "name": "CISF ASI", "code": "DEF-CISFASI" },
+        { "id": 34, "name": "BSF SI", "code": "DEF-BSFSI" },
+        {
+          "id": 35,
+          "name": "Indian Coast Guard Navik DB",
+          "code": "DEF-ICGNDB"
+        },
+        { "id": 36, "name": "BSF RO", "code": "DEF-BSFRO" },
+        { "id": 37, "name": "AOC Material Assistant", "code": "DEF-AOCMA" },
+        { "id": 38, "name": "Indian Navy Chargeman", "code": "DEF-INCM" },
+        { "id": 39, "name": "ACC Exam", "code": "DEF-ACC" },
+        { "id": 40, "name": "CRPF ASI", "code": "DEF-CRPFASI" },
+        { "id": 41, "name": "ITBP GD Constable", "code": "DEF-ITBPGDC" },
+        { "id": 42, "name": "Indian Navy Agniveer", "code": "DEF-INA" },
+        { "id": 43, "name": "Navy AA", "code": "DEF-NAA" },
+        { "id": 44, "name": "AFCAT EKT", "code": "DEF-AFCATEKT" },
+        { "id": 45, "name": "CRPF SI", "code": "DEF-CRPFSI" },
+        { "id": 46, "name": "Indian Army BSc Nursing", "code": "DEF-IABSCN" },
+        { "id": 47, "name": "INET", "code": "DEF-INET" },
+        { "id": 48, "name": "DRDO RAC", "code": "DEF-DRDORAC" },
+        { "id": 49, "name": "SSB SI", "code": "DEF-SSBSI" },
+        { "id": 50, "name": "Navy Tradesman Mate", "code": "DEF-NTM" },
+        { "id": 51, "name": "CRPF LDCE", "code": "DEF-CRPFLDCE" },
+        { "id": 52, "name": "SSB ASI", "code": "DEF-SSBASI" },
+        { "id": 53, "name": "Indian Navy Tradesman", "code": "DEF-INT" },
+        { "id": 54, "name": "BSF Tradesman", "code": "DEF-BSFT" },
+        { "id": 55, "name": "Indian Army CEE", "code": "DEF-IACEE" },
+        { "id": 56, "name": "CRPF Assistant Commandant", "code": "DEF-CRPFAC" },
+        { "id": 57, "name": "CISF", "code": "DEF-CISF" },
+        { "id": 58, "name": "CRPF", "code": "DEF-CRPF" },
+        { "id": 59, "name": "Indian Coast Guard", "code": "DEF-ICG" },
+        { "id": 60, "name": "DRDO STA", "code": "DEF-DRDOSTA" },
+        { "id": 61, "name": "ISRO Scientific Assistant", "code": "DEF-ISROSA" }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Insurances Exams",
+      "code": "INS",
+      "sub_exams": [
+        { "id": 1, "name": "NIACL Assistant", "code": "INS-NIACLA" },
+        { "id": 2, "name": "LIC Assistant", "code": "INS-LICA" },
+        { "id": 3, "name": "LIC AAO", "code": "INS-LICAAO" },
+        { "id": 4, "name": "ESIC Paramedical", "code": "INS-ESICPM" },
+        { "id": 5, "name": "ESIC IMO", "code": "INS-ESICIMO" },
+        { "id": 6, "name": "LIC ADO", "code": "INS-LICADO" },
+        { "id": 7, "name": "NICL AO", "code": "INS-NICLAO" },
+        { "id": 8, "name": "UIIC AO", "code": "INS-UIICAO" },
+        { "id": 9, "name": "NIACL AO", "code": "INS-NIACLAO" },
+        { "id": 10, "name": "UllC Assistant", "code": "INS-UIICA" },
+        { "id": 11, "name": "ESIC UDC", "code": "INS-ESICUDC" },
+        { "id": 12, "name": "LIC HFL Assistant", "code": "INS-LICHFLA" },
+        { "id": 13, "name": "ESIC SSO", "code": "INS-ESICSSO" },
+        { "id": 14, "name": "ESIC MTS", "code": "INS-ESICMTS" },
+        { "id": 15, "name": "ESIC Stenographer", "code": "INS-ESICS" },
+        { "id": 16, "name": "GIC Assistant Manager", "code": "INS-GICAM" },
+        { "id": 17, "name": "LIC HFL", "code": "INS-LICHFL" },
+        { "id": 18, "name": "ESIC", "code": "INS-ESIC" }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Nursing Exams",
+      "code": "NUR",
+      "sub_exams": [
+        { "id": 1, "name": "AIIMS Nursing Officer", "code": "NUR-AIIMSNURSE" },
+        { "id": 2, "name": "ESIC Nursing Officer", "code": "NUR-ESICNO" },
+        { "id": 3, "name": "CRPF Paramedical Staff", "code": "NUR-CRPFPM" },
+        { "id": 4, "name": "Railway Pharmacist", "code": "NUR-RAILPHARMA" },
+        { "id": 5, "name": "RRB Staff Nurse", "code": "NUR-RRBSN" },
+        { "id": 6, "name": "Bihar ANM", "code": "NUR-BIHARANM" },
+        { "id": 7, "name": "MP Lab Technician", "code": "NUR-MPLT" },
+        { "id": 8, "name": "MP Staff Nurse", "code": "NUR-MPSN" },
+        { "id": 9, "name": "DSSSB Nursing Staff", "code": "NUR-DSSSBNURSING" },
+        { "id": 10, "name": "UPUMS Nursing Officer", "code": "NUR-UPUMSNO" },
+        { "id": 11, "name": "UPSSSC ANM", "code": "NUR-UPSSSCANM" },
+        { "id": 12, "name": "ESIC IMO", "code": "NUR-ESICIMO" },
+        { "id": 13, "name": "ESIC Paramedical", "code": "NUR-ESICPM" },
+        {
+          "id": 14,
+          "name": "Maharashtra Arogya Vibhag Group",
+          "code": "NUR-MAHAAROGYA"
+        },
+        { "id": 15, "name": "DSSSB ANM", "code": "NUR-DSSSBANM" },
+        { "id": 16, "name": "UPPSC Dental Surgeon", "code": "NUR-UPPSCDS" },
+        { "id": 17, "name": "NHM MP CHO", "code": "NUR-NHMMPCHO" },
+        { "id": 18, "name": "UP NHM ANM", "code": "NUR-UPNHMANM" },
+        { "id": 19, "name": "NHM Rajasthan CHO", "code": "NUR-NHMRAJCHO" },
+        { "id": 20, "name": "GMCH Nursing Officer", "code": "NUR-GMCHNO" },
+        { "id": 21, "name": "ESIC Staff Nurse", "code": "NUR-ESICSN" },
+        {
+          "id": 22,
+          "name": "UPPSC Staff Nurse",
+          "code": "NUR-UPPSCSTAFFNURSE"
+        },
+        { "id": 23, "name": "UP NRHM", "code": "NUR-UPNRHM" },
+        { "id": 24, "name": "DSSSB Nursing Officer", "code": "NUR-DSSSBO" },
+        { "id": 25, "name": "NVS Staff Nurse", "code": "NUR-NVSSN" },
+        { "id": 26, "name": "RRB Paramedical Staff", "code": "NUR-RRBPM" },
+        {
+          "id": 27,
+          "name": "Maharashtra NHM Staff Nurse",
+          "code": "NUR-MAHA-NHM-SN"
+        },
+        { "id": 28, "name": "JIPMER Nursing Officer", "code": "NUR-JIPMERNO" },
+        { "id": 29, "name": "UP NHM Staff Nurse", "code": "NUR-UPNHMSN" },
+        { "id": 30, "name": "BFUHS MPHW", "code": "NUR-BFUHSMPHW" },
+        { "id": 31, "name": "PGIMER Staff Nurse", "code": "NUR-PGIMERSN" },
+        { "id": 32, "name": "JSSC ANM", "code": "NUR-JSSCANM" },
+        {
+          "id": 33,
+          "name": "Railway Lab Assistant",
+          "code": "NUR-RAILLABASST"
+        },
+        {
+          "id": 34,
+          "name": "UKPSC Veterinary Officer",
+          "code": "NUR-UKPSCVET"
+        },
+        { "id": 35, "name": "UPUMS Staff Nurse", "code": "NUR-UPUMSSN" },
+        { "id": 36, "name": "MP GNTST PNST", "code": "NUR-MPGNTST" },
+        { "id": 37, "name": "GMCH Staff Nurse", "code": "NUR-GMCHSN" },
+        { "id": 38, "name": "HPSSSB Staff Nurse", "code": "NUR-HPSSSBSN" },
+        { "id": 39, "name": "BHU Nursing Officer", "code": "NUR-BHUNO" },
+        { "id": 40, "name": "KEA Staff Nurse", "code": "NUR-KEASN" },
+        { "id": 41, "name": "DGHS Field Worker", "code": "NUR-DGHSFW" },
+        { "id": 42, "name": "TN MRB Pharmacist", "code": "NUR-TNMRBPHARMA" },
+        { "id": 43, "name": "KPSC Staff Nurse", "code": "NUR-KPSCSN" },
+        { "id": 44, "name": "ESIC Pharmacist", "code": "NUR-ESICPHARMA" },
+        {
+          "id": 45,
+          "name": "RRB Health and Malaria Inspector",
+          "code": "NUR-RRBHMI"
+        },
+        {
+          "id": 46,
+          "name": "NHM Rajasthan Pharmacist",
+          "code": "NUR-NHMRAJPHARMA"
+        },
+        { "id": 47, "name": "HSSC Staff Nurse", "code": "NUR-HSSCSN" },
+        {
+          "id": 48,
+          "name": "Kerala PSC Staff Nurse",
+          "code": "NUR-KERALAPSCSN"
+        },
+        { "id": 49, "name": "AP MLHP", "code": "NUR-APMLHP" },
+        { "id": 50, "name": "APPSC Medical Officer", "code": "NUR-APPSCMO" },
+        { "id": 51, "name": "BFUHS Staff Nurse", "code": "NUR-BFUHSSN" },
+        { "id": 52, "name": "NHM Haryana CHO", "code": "NUR-NHMHARYCHO" },
+        { "id": 53, "name": "NCL Staff Nurse", "code": "NUR-NCLSN" },
+        { "id": 54, "name": "UPRVUNL Staff Nurse", "code": "NUR-UPRVUNLSN" },
+        { "id": 55, "name": "BHU Staff Nurse", "code": "NUR-BHUSN" },
+        { "id": 56, "name": "UP NHM CHO", "code": "NUR-UPNHMCHO" },
+        {
+          "id": 57,
+          "name": "OSSSC Nursing Officer",
+          "code": "NUR-OSSSCNURSEO"
+        },
+        { "id": 58, "name": "JSSC Grade A Nurse", "code": "NUR-JSSCGRADEA" },
+        { "id": 59, "name": "Rajasthan GNM", "code": "NUR-RAJGNM" },
+        { "id": 60, "name": "NHM HP CHO", "code": "NUR-NHMHPCHO" },
+        { "id": 61, "name": "Rajasthan ANM", "code": "NUR-RAJANM" },
+        { "id": 62, "name": "UPSSSC Mukhya Sevika", "code": "NUR-UPSSSCMS" },
+        { "id": 63, "name": "AP ANM", "code": "NUR-APANM" },
+        { "id": 64, "name": "OPSC Dental Surgeon", "code": "NUR-OPSC-DS" },
+        { "id": 65, "name": "Telangana MPHA", "code": "NUR-TELMPHA" },
+        {
+          "id": 66,
+          "name": "AIIMS Bhopal Hospital Attendant",
+          "code": "NUR-AIIMSBHA"
+        },
+        { "id": 67, "name": "WBJEE ANM GNM", "code": "NUR-WBJEEANMGNM" }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "PG Exams",
+      "code": "PG",
+      "sub_exams": [
+        { "id": 1, "name": "GATE", "code": "PG-GATE" },
+        { "id": 2, "name": "CSIR NET", "code": "PG-CSIRNET" },
+        { "id": 3, "name": "IIT JAM", "code": "PG-IITJAM" },
+        { "id": 4, "name": "CEED", "code": "PG-CEED" },
+        { "id": 5, "name": "TISSNET", "code": "PG-TISSNET" },
+        { "id": 6, "name": "ICAR AIEEA PG", "code": "PG-ICARAIEEAPG" },
+        { "id": 7, "name": "PGIMER", "code": "PG-PGIMER" },
+        { "id": 8, "name": "JNUEE", "code": "PG-JNUEE" },
+        { "id": 9, "name": "CUET PG", "code": "PG-CUETPG" },
+        { "id": 10, "name": "BITS Pilani HD", "code": "PG-BITSHD" },
+        { "id": 11, "name": "AIIMS PG", "code": "PG-AIIMSPG" },
+        { "id": 12, "name": "IISc Entrance Exam", "code": "PG-IIScEE" }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Campus Placement Exams",
+      "code": "CAMPUS",
+      "sub_exams": [
+        { "id": 1, "name": "AMCAT", "code": "CAMPUS-AMCAT" },
+        { "id": 2, "name": "CoCubes", "code": "CAMPUS-COCUBES" },
+        { "id": 3, "name": "eLitmus", "code": "CAMPUS-ELITMUS" },
+        { "id": 4, "name": "TCS iON CCQT", "code": "CAMPUS-TCSIONCCQT" },
+        { "id": 5, "name": "TCS NQT", "code": "CAMPUS-TCSNQT" },
+        { "id": 6, "name": "Wipro NLTH", "code": "CAMPUS-WIPRONLTH" },
+        { "id": 7, "name": "Infosys InfyTQ", "code": "CAMPUS-INFYTQ" },
+        { "id": 8, "name": "IBM CodeKnack", "code": "CAMPUS-IBMCODEKNACK" },
+        {
+          "id": 9,
+          "name": "Capgemini Exceller",
+          "code": "CAMPUS-CAPGEMINIEXCELLER"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "MBA Exams",
+      "code": "MBA",
+      "sub_exams": [
+        { "id": 1, "name": "CAT Exam", "code": "MBA-CAT" },
+        { "id": 2, "name": "CMAT Exam", "code": "MBA-CMAT" },
+        { "id": 3, "name": "MAH MBA CET", "code": "MBA-MAHCET" },
+        { "id": 4, "name": "XAT Exam", "code": "MBA-XAT" },
+        { "id": 5, "name": "SNAP Exam", "code": "MBA-SNAP" },
+        { "id": 6, "name": "Karnataka PGCET", "code": "MBA-PGCET" },
+        { "id": 7, "name": "TANCET", "code": "MBA-TANCET" },
+        { "id": 8, "name": "KMAT Kerala", "code": "MBA-KMAT" },
+        { "id": 9, "name": "NMAT Exam", "code": "MBA-NMAT" },
+        { "id": 10, "name": "MAT Exam", "code": "MBA-MAT" },
+        { "id": 11, "name": "ATMA Exam", "code": "MBA-ATMA" },
+        { "id": 12, "name": "PGDBA Exam", "code": "MBA-PGDBA" },
+        { "id": 13, "name": "TISSNET Exam", "code": "MBA-TISSNET" },
+        { "id": 14, "name": "IIFT MBA Exam", "code": "MBA-IIFT" }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Accounting and Commerce Exams",
+      "code": "ACC",
+      "sub_exams": [
+        { "id": 1, "name": "EMRS Accountant", "code": "ACC-EMRSACCOUNTANT" },
+        {
+          "id": 2,
+          "name": "RSMSSB Junior Accountant",
+          "code": "ACC-RSMSSBJUNIOR"
+        },
+        { "id": 3, "name": "RPSC Junior Accountant", "code": "ACC-RPSCJUNIOR" },
+        {
+          "id": 4,
+          "name": "UPSSSC Assistant Accountant",
+          "code": "ACC-UPSSSCASSISTANT"
+        },
+        { "id": 5, "name": "UPSSSC Auditor", "code": "ACC-UPSSSCAUDITOR" },
+        {
+          "id": 6,
+          "name": "UKSSSC Assistant Accountant",
+          "code": "ACC-UKSSSCASSISTANT"
+        },
+        { "id": 7, "name": "MP Vyapam AAO", "code": "ACC-MPVYAPAMAAO" },
+        { "id": 8, "name": "RSMSSB TRA", "code": "ACC-RSMSSBTRA" },
+        {
+          "id": 9,
+          "name": "UKSSSC Accountant",
+          "code": "ACC-UKSSSCACCOUNTANT"
+        },
+        {
+          "id": 10,
+          "name": "RIICO Assistant Accounts Officer",
+          "code": "ACC-RIICOAAO"
+        },
+        {
+          "id": 11,
+          "name": "MPPSC Taxation Assistant",
+          "code": "ACC-MPPSCTAXASSISTANT"
+        },
+        {
+          "id": 12,
+          "name": "UPPCL Assistant Accountant",
+          "code": "ACC-UPPCLASSISTANT"
+        },
+        {
+          "id": 13,
+          "name": "JKSSB Accounts Assistant",
+          "code": "ACC-JKSSBACCOUNTS"
+        },
+        { "id": 14, "name": "UPPCL Accounts Clerk", "code": "ACC-UPPCLCLERK" }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Judiciary Exams",
+      "code": "JUD",
+      "sub_exams": [
+        { "id": 1, "name": "UPPSC Civil Judge", "code": "JUD-UPPSCJUDGE" },
+        {
+          "id": 2,
+          "name": "Allahabad High Court Stenographer",
+          "code": "JUD-ALLAHABADSTENO"
+        },
+        { "id": 3, "name": "UPPSC APO", "code": "JUD-UPPSCAPO" },
+        { "id": 4, "name": "RPSC APO", "code": "JUD-RPSCAPO" },
+        {
+          "id": 5,
+          "name": "Delhi Judicial Services",
+          "code": "JUD-DELHIJUDICIAL"
+        },
+        { "id": 6, "name": "MP Civil Judge", "code": "JUD-MPCIVIL" },
+        {
+          "id": 7,
+          "name": "Rajasthan High Court Civil Judge",
+          "code": "JUD-RAJASTHANCIVIL"
+        },
+        { "id": 8, "name": "CGPSC Civil Judge", "code": "JUD-CGPSCCIVIL" },
+        {
+          "id": 9,
+          "name": "Delhi Higher Judicial Service",
+          "code": "JUD-DELHIHIGHER"
+        },
+        {
+          "id": 10,
+          "name": "Rajasthan High Court District Judge",
+          "code": "JUD-RAJASTHANDISTRICT"
+        },
+        { "id": 11, "name": "AIBE", "code": "JUD-AIBE" },
+        {
+          "id": 12,
+          "name": "West Bengal Judicial Service",
+          "code": "JUD-WBJUDICIAL"
+        },
+        {
+          "id": 13,
+          "name": "Manipur Judicial Service",
+          "code": "JUD-MANIPURJUDICIAL"
+        },
+        {
+          "id": 14,
+          "name": "Haryana Judicial Services",
+          "code": "JUD-HARYANAJUDICIAL"
+        },
+        {
+          "id": 15,
+          "name": "MP High Court District Judge",
+          "code": "JUD-MPDISTRICT"
+        },
+        {
+          "id": 16,
+          "name": "Odisha Judicial Services",
+          "code": "JUD-ODISHAJUDICIAL"
+        },
+        {
+          "id": 17,
+          "name": "Rajasthan Judicial Service",
+          "code": "JUD-RAJASTHANJUDICIAL"
+        },
+        {
+          "id": 18,
+          "name": "Jharkhand High Court District Judge",
+          "code": "JUD-JHARKHANDDISTRICT"
+        },
+        {
+          "id": 19,
+          "name": "MP High Court Junior Judicial Translator",
+          "code": "JUD-MPHCJUNIOR"
+        },
+        {
+          "id": 20,
+          "name": "BPSC Judicial Services",
+          "code": "JUD-BPSCJUDICIAL"
+        },
+        {
+          "id": 21,
+          "name": "Himachal Pradesh Civil Judge",
+          "code": "JUD-HPJUDGE"
+        },
+        {
+          "id": 22,
+          "name": "Tripura Judicial Services",
+          "code": "JUD-TRIPURAJUDICIAL"
+        },
+        { "id": 23, "name": "JKPSC Civil Judge", "code": "JUD-JKPSCCIVIL" },
+        {
+          "id": 24,
+          "name": "Gujarat High Court Civil Judge",
+          "code": "JUD-GUJARATCIVIL"
+        },
+        {
+          "id": 25,
+          "name": "Karnataka High Court Civil Judge",
+          "code": "JUD-KARNATAKACIVIL"
+        },
+        { "id": 26, "name": "JPSC Civil Judge", "code": "JUD-JPSCJUDGE" },
+        { "id": 27, "name": "JPSC APO", "code": "JUD-JPSCAPO" },
+        { "id": 28, "name": "UKPSC Civil Judge", "code": "JUD-UKPSCCIVIL" },
+        { "id": 29, "name": "UPPSC APO", "code": "JUD-UPPSCAPO2" },
+        {
+          "id": 30,
+          "name": "Haryana Superior Judicial Service",
+          "code": "JUD-HARYANASUPERIOR"
+        },
+        {
+          "id": 31,
+          "name": "Orissa High Court District Judge",
+          "code": "JUD-ORISSADISTRICT"
+        },
+        {
+          "id": 32,
+          "name": "AP High Court District Judge",
+          "code": "JUD-APDISTRICT"
+        },
+        {
+          "id": 33,
+          "name": "Telangana High Court Civil Judge",
+          "code": "JUD-TELANGANACIVIL"
+        },
+        {
+          "id": 34,
+          "name": "PPSC Judicial Service",
+          "code": "JUD-PPSCJUDICIAL"
+        },
+        {
+          "id": 35,
+          "name": "Bombay High Court District Judge",
+          "code": "JUD-BOMBAYDISTRICT"
+        },
+        {
+          "id": 36,
+          "name": "Karnataka High Court District Judge",
+          "code": "JUD-KARNATAKADISTRICT"
+        },
+        {
+          "id": 37,
+          "name": "Assam Judicial Service",
+          "code": "JUD-ASSAMJUDICIAL"
+        },
+        {
+          "id": 38,
+          "name": "Meghalaya Higher Judicial Service",
+          "code": "JUD-MEGHALAYAHIGHER"
+        },
+        {
+          "id": 39,
+          "name": "Madras High Court District Judge",
+          "code": "JUD-MADRASDISTRICT"
+        },
+        {
+          "id": 40,
+          "name": "AP High Court Civil Judge",
+          "code": "JUD-APCIVIL"
+        },
+        { "id": 41, "name": "TNPSC Civil Judge", "code": "JUD-TNPSCCIVIL" },
+        {
+          "id": 42,
+          "name": "Kerala Judicial Service Exam",
+          "code": "JUD-KERALAJUDICIAL"
+        },
+        {
+          "id": 43,
+          "name": "Patna High Court District Judge",
+          "code": "JUD-PATNADISTRICT"
+        },
+        {
+          "id": 44,
+          "name": "Maharashtra Civil Judge",
+          "code": "JUD-MAHARASHTRACIVIL"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Banking and Finance Exams",
+      "code": "BANK",
+      "sub_exams": [
+        { "id": 1, "name": "RBI Assistant", "code": "BANK-RBIASSISTANT" },
+        { "id": 2, "name": "SIDBI Assistant Manager", "code": "BANK-SIDBIAM" },
+        { "id": 3, "name": "RBI Grade B", "code": "BANK-RBIGRADEB" },
+        { "id": 4, "name": "SEBI Grade A", "code": "BANK-SEBIGRADEA" },
+        { "id": 5, "name": "NABARD Grade A", "code": "BANK-NABARDGRADEA" },
+        {
+          "id": 6,
+          "name": "RBI Office Attendant",
+          "code": "BANK-RBIOFFICEATTENDANT"
+        },
+        {
+          "id": 7,
+          "name": "NABARD Development Assistant",
+          "code": "BANK-NABARDDEVASSISTANT"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "CUET and UG Entrance Exams",
+      "code": "UG",
+      "sub_exams": [
+        { "id": 1, "name": "NEET", "code": "UG-NEET" },
+        { "id": 2, "name": "JEE Main", "code": "UG-JEEMAIN" },
+        { "id": 3, "name": "JEE Advanced", "code": "UG-JEEADVANCED" },
+        { "id": 4, "name": "CUET", "code": "UG-CUET" },
+        { "id": 5, "name": "WBJEE", "code": "UG-WBJEE" },
+        { "id": 6, "name": "AP ICET Exam", "code": "UG-APICET" },
+        { "id": 7, "name": "TS ICET Exam", "code": "UG-TSICET" },
+        { "id": 8, "name": "MHT CET", "code": "UG-MHTCET" },
+        { "id": 9, "name": "COMEDK UGET", "code": "UG-COMEDKUGET" },
+        { "id": 10, "name": "VITEEE", "code": "UG-VITEEE" },
+        { "id": 11, "name": "IIT JAM", "code": "UG-IITJAM" },
+        { "id": 12, "name": "NCET", "code": "UG-NCET" },
+        { "id": 13, "name": "TS EAMCET", "code": "UG-TSEAMCET" },
+        { "id": 14, "name": "KCET", "code": "UG-KCET" },
+        { "id": 15, "name": "KEAM", "code": "UG-KEAM" },
+        { "id": 16, "name": "AP EAPCET", "code": "UG-APEAPCET" },
+        { "id": 17, "name": "CLAT", "code": "UG-CLAT" },
+        { "id": 18, "name": "SRMJEEE", "code": "UG-SRMJEEE" },
+        { "id": 19, "name": "Odisha B.Ed", "code": "UG-ODISHABED" },
+        { "id": 20, "name": "UP Polytechnic JEECUP", "code": "UG-JEECUP" },
+        { "id": 21, "name": "GUJCET", "code": "UG-GUJCET" },
+        { "id": 22, "name": "OUAT", "code": "UG-OUAT" },
+        { "id": 23, "name": "MP PPT", "code": "UG-MPPPT" },
+        { "id": 24, "name": "TS PGECET", "code": "UG-TSPGECET" },
+        { "id": 25, "name": "KVPY", "code": "UG-KVPY" },
+        { "id": 26, "name": "BCECE", "code": "UG-BCECE" },
+        {
+          "id": 27,
+          "name": "Uttarakhand D.El.Ed",
+          "code": "UG-UTTARAKHANDDELED"
+        },
+        { "id": 28, "name": "Jamia Millia Islamia B.Ed", "code": "UG-JMI-BED" },
+        { "id": 29, "name": "RIE CEE", "code": "UG-RIECEE" },
+        { "id": 30, "name": "HPU B.Ed", "code": "UG-HPUBED" },
+        { "id": 31, "name": "HPCET", "code": "UG-HPCET" },
+        { "id": 32, "name": "Karnataka B.Ed", "code": "UG-KARNATAKABED" },
+        { "id": 33, "name": "JKBOPEE B.Ed", "code": "UG-JKBOPEEBED" },
+        { "id": 34, "name": "TS EDCET", "code": "UG-TSEDCET" },
+        { "id": 35, "name": "AP EDCET", "code": "UG-APEDCET" },
+        { "id": 36, "name": "MH CET LAW", "code": "UG-MHCETLAW" },
+        { "id": 37, "name": "Punjab B.Ed", "code": "UG-PUNJABBED" },
+        { "id": 38, "name": "Chandigarh B.Ed", "code": "UG-CHANDIGARHBED" },
+        {
+          "id": 39,
+          "name": "Dibrugarh University B.Ed CET",
+          "code": "UG-DIBRUGARHBED"
+        },
+        { "id": 40, "name": "NHTET", "code": "UG-NHTET" },
+        { "id": 41, "name": "VMOU B.Ed", "code": "UG-VMOUBED" },
+        { "id": 42, "name": "MAH MCA CET", "code": "UG-MAHMCACET" },
+        { "id": 43, "name": "LPUNEST", "code": "UG-LPUNEST" },
+        { "id": 44, "name": "DU LLB", "code": "UG-DULLB" },
+        { "id": 45, "name": "AIAPGET", "code": "UG-AIAPGET" },
+        { "id": 46, "name": "MICAT", "code": "UG-MICAT" },
+        { "id": 47, "name": "AEEE", "code": "UG-AEEE" },
+        { "id": 48, "name": "JMI Entrance Exam", "code": "UG-JMIENTRANCE" },
+        { "id": 49, "name": "NIPER JEE", "code": "UG-NIPERJEE" },
+        { "id": 50, "name": "NEST", "code": "UG-NEST" },
+        { "id": 51, "name": "CEED", "code": "UG-CEED" },
+        { "id": 52, "name": "PU LLB", "code": "UG-PULLB" },
+        { "id": 53, "name": "WBJEE JELET", "code": "UG-WBJEEJELET" },
+        { "id": 54, "name": "ICMAI", "code": "UG-ICMAI" },
+        { "id": 55, "name": "AP PGECET", "code": "UG-APPGECET" },
+        { "id": 56, "name": "IISER IAT", "code": "UG-IISERIAT" },
+        { "id": 57, "name": "AILET", "code": "UG-AILET" },
+        { "id": 58, "name": "TS LAWCET", "code": "UG-TSLAWCET" },
+        { "id": 59, "name": "ICAR AIEEA", "code": "UG-ICARAIEEA" },
+        { "id": 60, "name": "AP ECET", "code": "UG-APECET" },
+        { "id": 61, "name": "AIIMS MBBS", "code": "UG-AIIMSMBBS" },
+        { "id": 62, "name": "AMUEEE", "code": "UG-AMUEEE" },
+        { "id": 63, "name": "IIMC", "code": "UG-IIMC" },
+        { "id": 64, "name": "JCECE", "code": "UG-JCECE" },
+        { "id": 65, "name": "JEXPO", "code": "UG-JEXPO" },
+        { "id": 66, "name": "IGNOU MBA", "code": "UG-IGNOUMBA" },
+        { "id": 67, "name": "MP PAT", "code": "UG-MPPAT" },
+        { "id": 68, "name": "CMC Vellore", "code": "UG-CMCVELLORE" },
+        { "id": 69, "name": "VSAT", "code": "UG-VSAT" },
+        { "id": 70, "name": "NPAT", "code": "UG-NPAT" },
+        { "id": 71, "name": "GPAT", "code": "UG-GPAT" },
+        { "id": 72, "name": "UCEED", "code": "UG-UCEED" },
+        { "id": 73, "name": "PU CET", "code": "UG-PUCET" },
+        { "id": 74, "name": "IPMAT", "code": "UG-IPMAT" },
+        { "id": 75, "name": "HP PAT", "code": "UG-HPPAT" },
+        { "id": 76, "name": "HPU MAT", "code": "UG-HPUMAT" },
+        { "id": 77, "name": "NATA", "code": "UG-NATA" },
+        { "id": 78, "name": "AP POLYCET", "code": "UG-APPOLYCET" },
+        { "id": 79, "name": "CG PET", "code": "UG-CGPET" },
+        { "id": 80, "name": "AP LAWCET", "code": "UG-APLAWCET" },
+        { "id": 81, "name": "CUSAT CAT", "code": "UG-CUSATCAT" },
+        { "id": 82, "name": "AP DEECET", "code": "UG-APDEECET" },
+        { "id": 83, "name": "JKCET", "code": "UG-JKCET" },
+        { "id": 84, "name": "HITSEEE", "code": "UG-HITSEEE" },
+        { "id": 85, "name": "CG PPT", "code": "UG-CGPPT" },
+        { "id": 86, "name": "JUET", "code": "UG-JUET" },
+        { "id": 87, "name": "HSEE", "code": "UG-HSEE" },
+        { "id": 88, "name": "IICD Entrance Exam", "code": "UG-IICD" },
+        { "id": 89, "name": "CG PAT", "code": "UG-CGPAT" },
+        { "id": 90, "name": "AGRICET", "code": "UG-AGRICET" },
+        { "id": 91, "name": "TS POLYCET", "code": "UG-TSPOLYCET" },
+        { "id": 92, "name": "ACET", "code": "UG-ACET" },
+        { "id": 93, "name": "NCHMCT JEE Exam", "code": "UG-NCHMCTJEE" },
+        { "id": 94, "name": "Bihar Diploma DECE-LE", "code": "UG-DECELE" }
+      ]
+    }
+  ]
+}
