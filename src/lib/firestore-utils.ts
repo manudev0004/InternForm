@@ -147,8 +147,13 @@ export async function restoreFromLog(logId: string) {
 }
 
 // --- Utility: Get assignments for intern ---
-export async function getAssignmentsForIntern(internId: string) {
-  const q = query(collection(db, 'assignments'), where('internId', '==', internId));
+export async function getAssignmentsForIntern(internId: string = '') {
+  let q;
+  if (internId) {
+    q = query(collection(db, 'assignments'), where('internId', '==', internId));
+  } else {
+    q = query(collection(db, 'assignments'));
+  }
   const snap = await getDocs(q);
   return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }

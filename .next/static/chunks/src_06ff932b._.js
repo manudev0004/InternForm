@@ -931,27 +931,61 @@ async function addSubExam(mainExamId, subExam) {
 }
 async function assignWork({ examId, subExamId = null, internIds, dueDate, assignedBy, notes = '', bulk = false }) {
     const batch = [];
+    const timestamp = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Timestamp"].now();
+    const dueTimestamp = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Timestamp"].fromDate(dueDate);
     for (const internId of internIds){
+        // Create assignment in assignments collection
         const assignment = {
             examId,
             subExamId: subExamId || null,
             internId,
             assignedBy,
-            dueDate: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Timestamp"].fromDate(dueDate),
+            dueDate: dueTimestamp,
+            assignedAt: timestamp,
             status: 'assigned',
             notes,
             history: [
                 {
                     action: 'assigned',
                     actorId: assignedBy,
-                    timestamp: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Timestamp"].now(),
+                    timestamp: timestamp,
                     details: {
                         notes
                     }
                 }
             ]
         };
-        batch.push((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["addDoc"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["collection"])(db, 'assignments'), assignment));
+        // Add assignment to batch
+        const assignmentRef = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["addDoc"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["collection"])(db, 'assignments'), assignment);
+        // Update user's assignedExams array
+        const userRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["doc"])(db, 'users', internId);
+        const userDoc = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getDoc"])(userRef);
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const assignedExams = Array.isArray(userData.assignedExams) ? userData.assignedExams : [];
+            // Check if this exam is already assigned to avoid duplicates
+            const examExists = assignedExams.some((exam)=>(exam.id === examId || exam.examId === examId) && (!subExamId || exam.subExamId === subExamId));
+            if (!examExists) {
+                const newAssignment = {
+                    id: assignmentRef.id,
+                    examId,
+                    subExamId: subExamId || null,
+                    dueDate: dueTimestamp.toDate().toISOString(),
+                    assignedAt: timestamp.toDate().toISOString(),
+                    status: 'assigned',
+                    completed: false,
+                    notes
+                };
+                await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["updateDoc"])(userRef, {
+                    assignedExams: [
+                        ...assignedExams,
+                        newAssignment
+                    ],
+                    updatedAt: timestamp
+                });
+            }
+        }
+        batch.push(assignmentRef);
     }
     return Promise.all(batch);
 }

@@ -1,14 +1,48 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { getUsersByRole, addExam, addUser, updateUser, deleteUser, assignWork, addLog, getAllLogs, getAssignmentsForIntern, getAllExams } from '@/lib/firestore-utils';
-import { LogEntry } from '@/lib/firebaseHelpers'; // for type only, adjust as needed
+import { useState, useEffect } from "react";
+import {
+  getUsersByRole,
+  addExam,
+  addUser,
+  updateUser,
+  deleteUser,
+  assignWork,
+  addLog,
+  getAllLogs,
+  getAssignmentsForIntern,
+  getAllExams,
+} from "@/lib/firestore-utils";
+import { LogEntry } from "@/lib/firebaseHelpers"; // for type only, adjust as needed
+import { deleteDoc, doc, getFirestore } from "firebase/firestore";
+import { firebaseApp } from "@/lib/firebase";
+
+interface Assignment {
+  id: string;
+  examId: string;
+  subExamId: string;
+  internId: string;
+  assignedBy: string;
+  dueDate: Date;
+  status: string;
+  notes: {
+    mainExamName: string;
+    subExamName: string;
+    subExamCode: string;
+  };
+  history: Array<{
+    action: string;
+    actorId: string;
+    timestamp: Date;
+    details: any;
+  }>;
+}
 
 // Temporary stub for updateExam until implemented in firestore-utils
 async function updateExam(examId: string, data: any) {
   // TODO: Implement updateExam in firestore-utils and use it here
   // For now, just log
-  console.warn('updateExam not implemented yet', examId, data);
+  console.warn("updateExam not implemented yet", examId, data);
 }
 
 // All imports are correct for used components and hooks.
@@ -29,70 +63,86 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Exam, User } from '@/types';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useToast } from "@/hooks/use-toast";
-import { Edit, Trash } from 'lucide-react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import ExamForm from '@/components/exam-form';
-import { format } from 'date-fns';
+} from "@/components/ui/table";
+import { Exam, User } from "@/types";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Edit, Trash } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import ExamForm from "@/components/exam-form";
+import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { useAuth } from "@/components/auth/auth-provider";
-import examList from '../../../Exams.json';
+import examList from "../../../Exams.json";
 
 const DUMMY_EXAMS: Exam[] = [
   {
-    id: '1',
-    mainExam: 'UPSC Civil Services',
-    examCode: 'UPSC_CSE_2025',
-    subExams: ['IAS', 'IPS', 'IFS'],
-    conductedBy: 'UPSC',
-    examSector: 'Civil Services',
-    status: 'active',
+    id: "1",
+    mainExam: "UPSC Civil Services",
+    examCode: "UPSC_CSE_2025",
+    subExams: ["IAS", "IPS", "IFS"],
+    conductedBy: "UPSC",
+    examSector: "Civil Services",
+    status: "active",
     version: 3,
     effectiveDate: new Date(),
-    dataSourceLink: 'https://example.com',
-    internNote: 'Sample note',
-    filledBy: 'intern1',
-    reviewStatus: 'Pending',
+    dataSourceLink: "https://example.com",
+    internNote: "Sample note",
+    filledBy: "intern1",
+    reviewStatus: "Pending",
     applicationPeriodStart: new Date(),
     applicationPeriodEnd: new Date(),
     eligibilityCriteria: [],
   },
   {
-    id: '2',
-    mainExam: 'SSC CGL',
-    examCode: 'SSC_CGL_2024',
+    id: "2",
+    mainExam: "SSC CGL",
+    examCode: "SSC_CGL_2024",
     subExams: [],
-    conductedBy: 'SSC',
-    examSector: 'General Competitive',
-    status: 'active',
+    conductedBy: "SSC",
+    examSector: "General Competitive",
+    status: "active",
     version: 2,
     effectiveDate: new Date(),
-    dataSourceLink: 'https://example.com',
-    internNote: 'Another sample note',
-    filledBy: 'intern2',
-    reviewStatus: 'Approved',
+    dataSourceLink: "https://example.com",
+    internNote: "Another sample note",
+    filledBy: "intern2",
+    reviewStatus: "Approved",
     applicationPeriodStart: new Date(),
     applicationPeriodEnd: new Date(),
     eligibilityCriteria: [],
   },
   {
-    id: '3',
-    mainExam: 'IBPS PO',
-    examCode: 'IBPS_PO_2024',
+    id: "3",
+    mainExam: "IBPS PO",
+    examCode: "IBPS_PO_2024",
     subExams: [],
-    conductedBy: 'IBPS',
-    examSector: 'Banking',
-    status: 'archived',
+    conductedBy: "IBPS",
+    examSector: "Banking",
+    status: "archived",
     version: 1,
     effectiveDate: new Date(),
-    dataSourceLink: 'https://example.com',
-    internNote: 'Yet another sample note',
-    filledBy: 'intern3',
-    reviewStatus: 'Rejected',
+    dataSourceLink: "https://example.com",
+    internNote: "Yet another sample note",
+    filledBy: "intern3",
+    reviewStatus: "Rejected",
     applicationPeriodStart: new Date(),
     applicationPeriodEnd: new Date(),
     eligibilityCriteria: [],
@@ -101,50 +151,56 @@ const DUMMY_EXAMS: Exam[] = [
 
 const DUMMY_USERS: User[] = [
   {
-    id: 'admin1',
-    email: 'admin@example.com',
-    role: 'admin',
+    id: "admin1",
+    email: "admin@example.com",
+    role: "admin",
     assignedExams: [],
   },
   {
-    id: 'intern1',
-    email: 'intern@example.com',
-    role: 'intern',
-    assignedExams: ['1'],
+    id: "intern1",
+    email: "intern@example.com",
+    role: "intern",
+    assignedExams: ["1"],
   },
   {
-    id: 'guest1',
-    email: 'guest@example.com',
-    role: 'guest',
+    id: "guest1",
+    email: "guest@example.com",
+    role: "guest",
     assignedExams: [],
   },
   {
-    id: 'intern2',
-    email: 'intern2@example.com',
-    role: 'intern',
-    assignedExams: ['2'],
+    id: "intern2",
+    email: "intern2@example.com",
+    role: "intern",
+    assignedExams: ["2"],
   },
   {
-    id: 'intern3',
-    email: 'intern3@example.com',
-    role: 'intern',
-    assignedExams: ['3'],
+    id: "intern3",
+    email: "intern3@example.com",
+    role: "intern",
+    assignedExams: ["3"],
   },
 ];
 
 // Reusable component for displaying exam data in a table
-function ExamTable({ exams, handleApproveReject, handleViewExam }: {
+function ExamTable({
+  exams,
+  handleApproveReject,
+  handleViewExam,
+}: {
   exams: Exam[];
-  handleApproveReject: (examId: string, status: 'Approved' | 'Rejected') => void;
+  handleApproveReject: (
+    examId: string,
+    status: "Approved" | "Rejected"
+  ) => void;
   handleViewExam: (exam: Exam) => void;
 }) {
-
   return (
     <div className="overflow-x-auto">
       <Table className="min-w-full">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[200px]">Exam Name</TableHead>
+            <TableHead className="w-[150px]">Exam Name</TableHead>
             <TableHead className="w-[150px]">Conducting Body</TableHead>
             <TableHead className="w-[150px]">Exam Level</TableHead>
             <TableHead className="w-[150px]">Category</TableHead>
@@ -156,24 +212,41 @@ function ExamTable({ exams, handleApproveReject, handleViewExam }: {
         <TableBody>
           {exams.map((exam) => (
             <TableRow key={exam.id}>
-              <TableCell className="font-medium">{exam.mainExam}</TableCell>
+              <TableCell
+                className="font-medium text-sm truncate max-w-[150px]"
+                title={exam.mainExam}
+              >
+                {exam.mainExam}
+              </TableCell>
               <TableCell>{exam.conductedBy}</TableCell>
               <TableCell>{exam.examSector}</TableCell>
               <TableCell>{exam.examSector}</TableCell>
-              <TableCell>{exam.filledBy || 'N/A'}</TableCell>
+              <TableCell>{exam.filledBy || "N/A"}</TableCell>
               <TableCell>{exam.reviewStatus}</TableCell>
               <TableCell className="text-right">
-                {exam.reviewStatus === 'Pending' && (
+                {exam.reviewStatus === "Pending" && (
                   <div className="space-x-2">
-                    <Button variant="ghost" size="sm" onClick={() => handleApproveReject(exam.id, 'Approved')}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleApproveReject(exam.id, "Approved")}
+                    >
                       Approve
                     </Button>
-                    <Button variant="destructive" size="sm" onClick={() => handleApproveReject(exam.id, 'Rejected')}>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleApproveReject(exam.id, "Rejected")}
+                    >
                       Reject
                     </Button>
                   </div>
                 )}
-                <Button variant="outline" size="sm" onClick={() => handleViewExam(exam)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleViewExam(exam)}
+                >
                   <Edit className="mr-2 h-4 w-4" />
                   View/Edit
                 </Button>
@@ -186,36 +259,116 @@ function ExamTable({ exams, handleApproveReject, handleViewExam }: {
   );
 }
 
-
 function LogTable({ logs }: { logs: LogEntry[] }) {
   return (
-    <div className="overflow-x-auto">
-      <Table className="min-w-full">
-        <TableHeader>
-          <TableRow>
-            <TableHead>Timestamp</TableHead>
-            <TableHead>Action</TableHead>
-            <TableHead>Details</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {logs.map((log) => (
-            <TableRow key={log.id}>
-              <TableCell>
-                {(log.timestamp instanceof Date && !isNaN(log.timestamp.getTime()))
-                  ? format(log.timestamp, 'PPP p')
-                  : 'N/A'}
-              </TableCell>
-              <TableCell>{log.action}</TableCell>
-              <TableCell>{log.details}</TableCell>
+    <div className="mt-4">
+      <h3 className="text-lg font-semibold mb-2">Activity Logs</h3>
+      <div className="border rounded-md">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Timestamp</TableHead>
+              <TableHead>Action</TableHead>
+              <TableHead>Details</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {logs.map((log) => (
+              <TableRow key={log.id}>
+                <TableCell>
+                  {log.timestamp instanceof Date &&
+                  !isNaN(log.timestamp.getTime())
+                    ? format(log.timestamp, "PPP p")
+                    : "N/A"}
+                </TableCell>
+                <TableCell>{log.action}</TableCell>
+                <TableCell>{log.details}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
 
+function WorkloadTable({
+  assignments,
+  onDeleteAssignment,
+}: {
+  assignments: Assignment[];
+  onDeleteAssignment: (id: string) => Promise<void>;
+}) {
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const handleDelete = async (id: string) => {
+    if (window.confirm("Are you sure you want to delete this assignment?")) {
+      setDeletingId(id);
+      try {
+        await onDeleteAssignment(id);
+      } finally {
+        setDeletingId(null);
+      }
+    }
+  };
+
+  return (
+    <div className="mt-6">
+      <h3 className="text-lg font-semibold mb-2">Intern Workload</h3>
+      <div className="border rounded-md">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Main Exam</TableHead>
+              <TableHead>Sub Exam</TableHead>
+              <TableHead>Code</TableHead>
+              <TableHead>Due Date</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Assigned By</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {assignments.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-4">
+                  No assignments found
+                </TableCell>
+              </TableRow>
+            ) : (
+              assignments.map((assignment) => (
+                <TableRow key={assignment.id}>
+                  <TableCell>{assignment.mainExamName}</TableCell>
+                  <TableCell>{assignment.subExamName}</TableCell>
+                  <TableCell>{assignment.subExamCode}</TableCell>
+                  <TableCell>
+                    {assignment.dueDate instanceof Date
+                      ? format(assignment.dueDate, "PPP")
+                      : "N/A"}
+                  </TableCell>
+                  <TableCell className="capitalize">
+                    {assignment.status}
+                  </TableCell>
+                  <TableCell>{assignment.assignedBy}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(assignment.id)}
+                      disabled={deletingId === assignment.id}
+                    >
+                      {deletingId === assignment.id ? "Deleting..." : "Delete"}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const [exams, setExams] = useState<Exam[]>([]);
@@ -224,48 +377,70 @@ export default function AdminDashboard() {
 
   // Convert Firestore Timestamp to JS Date
   const normalizeLogs = (rawLogs: any[]): LogEntry[] =>
-    rawLogs.map(log => ({
+    rawLogs.map((log) => ({
       ...log,
-      timestamp: log.timestamp?.toDate ? log.timestamp.toDate() : new Date(log.timestamp)
+      timestamp: log.timestamp?.toDate
+        ? log.timestamp.toDate()
+        : new Date(log.timestamp),
     }));
 
   // Helper: log action and refresh logs list
-  const logAndRefresh = async (payload: { action: string; actorId: string; entityType: string; entityId: string; details: string }) => {
+  const logAndRefresh = async (payload: {
+    action: string;
+    actorId: string;
+    entityType: string;
+    entityId: string;
+    details: string;
+  }) => {
     try {
       await addLog(payload);
-      console.log('addLog succeeded:', payload);
+      console.log("addLog succeeded:", payload);
     } catch (error) {
-      console.error('addLog failed:', error, payload);
-      toast({ title: 'Logging failed', description: 'Could not save log entry.' });
+      console.error("addLog failed:", error, payload);
+      toast({
+        title: "Logging failed",
+        description: "Could not save log entry.",
+      });
       return;
     }
     try {
       const logsFromDb = await getAllLogs();
       setLogs(normalizeLogs(logsFromDb));
     } catch (error) {
-      console.error('getAllLogs failed:', error);
+      console.error("getAllLogs failed:", error);
     }
   };
 
   // Handler: Approve/Reject Exam
-  const handleApproveReject = async (examId: string, status: 'Approved' | 'Rejected') => {
+  const handleApproveReject = async (
+    examId: string,
+    status: "Approved" | "Rejected"
+  ) => {
     await updateExam(examId, { reviewStatus: status });
-    setExams(exams.map(exam => exam.id === examId ? { ...exam, reviewStatus: status } : exam));
-    const affectedExam = exams.find(exam => exam.id === examId);
+    setExams(
+      exams.map((exam) =>
+        exam.id === examId ? { ...exam, reviewStatus: status } : exam
+      )
+    );
+    const affectedExam = exams.find((exam) => exam.id === examId);
     if (affectedExam) {
       await logAndRefresh({
         action: `Exam ${status}`,
-        actorId: user?.id || 'admin',
-        entityType: 'exam',
+        actorId: user?.id || "admin",
+        entityType: "exam",
         entityId: affectedExam.id,
-        details: `Admin ${user?.email || 'unknown'} ${status.toLowerCase()} exam ${affectedExam.mainExam} (code: ${affectedExam.examCode})`
+        details: `Admin ${
+          user?.email || "unknown"
+        } ${status.toLowerCase()} exam ${affectedExam.mainExam} (code: ${
+          affectedExam.examCode
+        })`,
       });
     }
   };
 
   // Handler: Add User
   const handleAddUser = async () => {
-    if (newEmail && !users.find(user => user.email === newEmail)) {
+    if (newEmail && !users.find((user) => user.email === newEmail)) {
       const newUser: User = {
         id: `user${users.length + 1}`,
         email: newEmail,
@@ -274,97 +449,216 @@ export default function AdminDashboard() {
       };
       await addUser(newUser);
       setUsers([...users, newUser]);
-      setNewEmail('');
+      setNewEmail("");
       await logAndRefresh({
-        action: 'User Added',
-        actorId: user?.id || 'admin',
-        entityType: 'user',
+        action: "User Added",
+        actorId: user?.id || "admin",
+        entityType: "user",
         entityId: newUser.id,
-        details: `Admin ${user?.email || 'unknown'} added user ${newUser.email} with role ${newUser.role}`
+        details: `Admin ${user?.email || "unknown"} added user ${
+          newUser.email
+        } with role ${newUser.role}`,
       });
     } else {
-      alert('Please enter a valid unique email address.');
+      alert("Please enter a valid unique email address.");
     }
   };
 
   // Handler: Change User Role
-  const handleChangeRole = async (userId: string, newRole: 'admin' | 'intern' | 'guest') => {
-    const updatedUser = users.find(user => user.id === userId);
+  const handleChangeRole = async (
+    userId: string,
+    newRole: "admin" | "intern" | "guest"
+  ) => {
+    const updatedUser = users.find((user) => user.id === userId);
     await updateUser(userId, { role: newRole });
-    setUsers(users.map(user => user.id === userId ? { ...user, role: newRole } : user));
+    setUsers(
+      users.map((user) =>
+        user.id === userId ? { ...user, role: newRole } : user
+      )
+    );
     if (updatedUser) {
       await logAndRefresh({
-        action: 'User Role Changed',
-        actorId: user?.id || 'admin',
-        entityType: 'user',
+        action: "User Role Changed",
+        actorId: user?.id || "admin",
+        entityType: "user",
         entityId: updatedUser.id,
-        details: `Admin ${user?.email || 'unknown'} changed role of user ${updatedUser.email} to ${newRole}`
+        details: `Admin ${user?.email || "unknown"} changed role of user ${
+          updatedUser.email
+        } to ${newRole}`,
       });
     }
   };
 
   // Handler: Remove User
   const handleRemoveUser = async (userId: string) => {
-    const removedUser = users.find(u => u.id === userId);
+    const removedUser = users.find((u) => u.id === userId);
     if (!removedUser) return;
     await deleteUser(userId);
-    setUsers(users.filter(u => u.id !== userId));
+    setUsers(users.filter((u) => u.id !== userId));
     await logAndRefresh({
-      action: 'User Removed',
-      actorId: user?.id || 'admin',
-      entityType: 'user',
+      action: "User Removed",
+      actorId: user?.id || "admin",
+      entityType: "user",
       entityId: removedUser.id,
-      details: `Admin ${user?.email || 'unknown'} removed user ${removedUser.email} (role: ${removedUser.role})`
+      details: `Admin ${user?.email || "unknown"} removed user ${
+        removedUser.email
+      } (role: ${removedUser.role})`,
     });
   };
 
   // Fetch initial data on mount
   useEffect(() => {
-    async function syncFirebase() {
+    const fetchInitialData = async () => {
       setIsLoading(true);
-      const examsFromDb = await getAllExams();
-      const usersFromDb = await getUsersByRole('intern');
-      setExams(examsFromDb);
-      setUsers(usersFromDb as User[]);
-      const logsFromDb = await getAllLogs();
-      setLogs(normalizeLogs(logsFromDb));
-      setIsLoading(false);
-    }
-    syncFirebase();
+      setIsLoadingAssignments(true);
+      try {
+        console.log("Fetching all data...");
+        const [examsFromDb, usersFromDb, logsFromDb, assignmentsData] =
+          await Promise.all([
+            getAllExams(),
+            getUsersByRole("intern"),
+            getAllLogs(),
+            getAssignmentsForIntern(""), // Empty string to get all assignments
+          ]);
+
+        console.log("Fetched assignments raw data:", assignmentsData);
+
+        setExams(examsFromDb);
+        setUsers(usersFromDb);
+        setLogs(normalizeLogs(logsFromDb));
+
+        // Parse the notes field if it's a string and handle Firestore timestamps
+        const parsedAssignments = assignmentsData.map((assignment: any) => {
+          // Convert Firestore Timestamp to Date if needed
+          const dueDate = assignment.dueDate?.toDate
+            ? assignment.dueDate.toDate()
+            : assignment.dueDate;
+
+          // Parse notes if it's a string
+          let notes = assignment.notes;
+          if (typeof notes === "string") {
+            try {
+              notes = JSON.parse(notes);
+            } catch (e) {
+              console.warn("Failed to parse notes:", e);
+              notes = {};
+            }
+          } else if (!notes) {
+            notes = {};
+          }
+
+          return {
+            ...assignment,
+            notes,
+            dueDate,
+            // Ensure we have all required fields with defaults
+            mainExamName:
+              assignment.mainExamName || notes.mainExamName || "N/A",
+            subExamName: assignment.subExamName || notes.subExamName || "N/A",
+            subExamCode: assignment.subExamCode || notes.subExamCode || "N/A",
+            status: assignment.status || "pending",
+            assignedBy: assignment.assignedBy || "Unknown",
+          };
+        });
+
+        console.log("Processed assignments:", parsedAssignments);
+        setAssignments(parsedAssignments);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+        setIsLoadingAssignments(false);
+      }
+    };
+
+    fetchInitialData();
   }, []);
 
-  const [newEmail, setNewEmail] = useState('');
-  const [newRole, setNewRole] = useState<'admin' | 'intern' | 'guest'>('intern');
-  const { toast } = useToast();
-  const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
-  
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [assignmentDueDate, setAssignmentDueDate] = useState<Date | undefined>(undefined);
-  const [selectedExamsForAssignment, setSelectedExamsForAssignment] = useState<string[]>([]);
-  const [selectedInternForAssignment, setSelectedInternForAssignment] = useState<string | null>(null);
-  const [logs, setLogs] = useState<LogEntry[]>([]);
-  const { user } = useAuth();
+  // Handle assignment deletion
+  const handleDeleteAssignment = async (assignmentId: string) => {
+    if (!user) return;
 
-  const [jsonMainExams] = useState(examList.exams as { id: number; name: string; sub_exams: { id: number; name: string; code: string }[] }[]);
-  const [selectedMainExamId, setSelectedMainExamId] = useState<number | null>(null);
-  const [availableSubExams, setAvailableSubExams] = useState<{ id: number; name: string; code: string }[]>([]);
+    if (!window.confirm("Are you sure you want to delete this assignment?")) {
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, "assignments", assignmentId));
+      setAssignments((prev) => prev.filter((a) => a.id !== assignmentId));
+
+      // Log the deletion
+      await addLog({
+        action: "Assignment Deleted",
+        actorId: user.id,
+        entityType: "assignment",
+        entityId: assignmentId,
+        details: `Assignment ${assignmentId} was deleted by ${
+          user.email || "admin"
+        }`,
+      });
+
+      // Refresh logs to show the deletion
+      const updatedLogs = await getAllLogs();
+      setLogs(normalizeLogs(updatedLogs));
+    } catch (error) {
+      console.error("Error deleting assignment:", error);
+      alert("Failed to delete assignment");
+    }
+  };
+
+  const [newEmail, setNewEmail] = useState("");
+  const [newRole, setNewRole] = useState<"admin" | "intern" | "guest">(
+    "intern"
+  );
+  const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
+
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [assignmentDueDate, setAssignmentDueDate] = useState<Date | undefined>(
+    undefined
+  );
+  const [selectedExamsForAssignment, setSelectedExamsForAssignment] = useState<
+    string[]
+  >([]);
+  const [selectedInternForAssignment, setSelectedInternForAssignment] =
+    useState<string | null>(null);
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [isLoadingAssignments, setIsLoadingAssignments] = useState(false);
+  const { user } = useAuth();
+  const db = getFirestore(firebaseApp);
+
+  const [jsonMainExams] = useState(
+    examList.exams as {
+      id: number;
+      name: string;
+      sub_exams: { id: number; name: string; code: string }[];
+    }[]
+  );
+  const [selectedMainExamId, setSelectedMainExamId] = useState<number | null>(
+    null
+  );
+  const [availableSubExams, setAvailableSubExams] = useState<
+    { id: number; name: string; code: string }[]
+  >([]);
   // Toggle sub-exam selection
   const toggleSubExam = (id: number) => {
     const idStr = id.toString();
-    setSelectedExamsForAssignment(prev =>
-      prev.includes(idStr) ? prev.filter(x => x !== idStr) : [...prev, idStr]
+    setSelectedExamsForAssignment((prev) =>
+      prev.includes(idStr) ? prev.filter((x) => x !== idStr) : [...prev, idStr]
     );
   };
   // Select/Deselect all sub-exams
   const selectAllSubs = () => {
-    setSelectedExamsForAssignment(availableSubExams.map(se => se.id.toString()));
+    setSelectedExamsForAssignment(
+      availableSubExams.map((se) => se.id.toString())
+    );
   };
   const deselectAllSubs = () => {
     setSelectedExamsForAssignment([]);
   };
   // Sync available sub-exams when main exam changes
   useEffect(() => {
-    const main = jsonMainExams.find(me => me.id === selectedMainExamId);
+    const main = jsonMainExams.find((me) => me.id === selectedMainExamId);
     setAvailableSubExams(main?.sub_exams || []);
     setSelectedExamsForAssignment([]);
   }, [selectedMainExamId]);
@@ -382,40 +676,77 @@ export default function AdminDashboard() {
 
   const handleAssignExamsWithDueDate = async () => {
     if (!selectedInternForAssignment) {
-      alert('Please select an intern to assign the exams to.');
+      alert("Please select an intern to assign the exams to.");
       return;
     }
     if (!selectedMainExamId) {
-      alert('Please select a main exam before assigning.');
+      alert("Please select a main exam before assigning.");
       return;
     }
     if (!assignmentDueDate) {
-      alert('Please select a due date for the assignment.');
+      alert("Please select a due date for the assignment.");
       return;
     }
-    // Determine exam IDs: use selected subs or all subs of the main exam
-    const examIdsToAssign = selectedExamsForAssignment.length > 0
-      ? selectedExamsForAssignment
-      : availableSubExams.map(se => se.id.toString());
-    // Assign each exam
-    for (const examId of examIdsToAssign) {
-      await assignWork({ examId, internIds: [selectedInternForAssignment], dueDate: assignmentDueDate, assignedBy: user?.id || 'admin', notes: '', bulk: false });
+
+    // Get the main exam details
+    const mainExam = jsonMainExams.find((me) => me.id === selectedMainExamId);
+    if (!mainExam) {
+      alert("Selected main exam not found");
+      return;
     }
-    // Log bulk assignment
+
+    // Determine which sub-exams to assign: use selected subs or all subs of the main exam
+    const subExamsToAssign =
+      selectedExamsForAssignment.length > 0
+        ? availableSubExams.filter((se) =>
+            selectedExamsForAssignment.includes(se.id.toString())
+          )
+        : availableSubExams;
+
+    if (subExamsToAssign.length === 0) {
+      alert("No sub-exams found to assign");
+      return;
+    }
+
+    // Assign each sub-exam
+    for (const subExam of subExamsToAssign) {
+      await assignWork({
+        examId: mainExam.id.toString(),
+        subExamId: subExam.id.toString(),
+        internIds: [selectedInternForAssignment],
+        dueDate: assignmentDueDate,
+        assignedBy: user?.id || "admin",
+        notes: JSON.stringify({
+          mainExamName: mainExam.name,
+          subExamName: subExam.name,
+          subExamCode: subExam.code,
+        }),
+        bulk: subExamsToAssign.length > 1,
+      });
+    }
+
+    // Log the assignment(s)
+    const subExamNames = subExamsToAssign.map((se) => se.name).join(", ");
     await logAndRefresh({
-      action: 'Exams Assigned',
-      actorId: user?.id || 'admin',
-      entityType: 'assignment',
-      entityId: examIdsToAssign.join(','),
-      details: `Assigned exams ${examIdsToAssign.join(', ')} to intern ${selectedInternForAssignment} with due date ${format(assignmentDueDate, 'PPP')}`
+      action: "Exams Assigned",
+      actorId: user?.id || "admin",
+      entityType: "assignment",
+      entityId: subExamsToAssign.map((se) => se.id).join(","),
+      details: `Assigned ${
+        mainExam.name
+      } (${subExamNames}) to intern ${selectedInternForAssignment} with due date ${format(
+        assignmentDueDate,
+        "PPP"
+      )}`,
     });
+
+    // Reset form
     setSelectedExamsForAssignment([]);
     setSelectedInternForAssignment(null);
     setAssignmentDueDate(undefined);
-    toast({
-      title: "Exams assigned successfully!",
-      description: `Exams assigned to intern with due date.`,
-    });
+    alert(
+      `Successfully assigned ${subExamsToAssign.length} exam(s) to the intern`
+    );
   };
 
   return (
@@ -423,7 +754,9 @@ export default function AdminDashboard() {
       <Card>
         <CardHeader>
           <CardTitle>Admin Dashboard</CardTitle>
-          <CardDescription>Manage exams and intern assignments.</CardDescription>
+          <CardDescription>
+            Manage exams and intern assignments.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ExamTable
@@ -445,14 +778,14 @@ export default function AdminDashboard() {
             <div>
               <Label>Main Exam</Label>
               <Select
-                value={selectedMainExamId?.toString() || ''}
-                onValueChange={val => setSelectedMainExamId(parseInt(val))}
+                value={selectedMainExamId?.toString() || ""}
+                onValueChange={(val) => setSelectedMainExamId(parseInt(val))}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select main exam" />
                 </SelectTrigger>
                 <SelectContent>
-                  {jsonMainExams.map(me => (
+                  {jsonMainExams.map((me) => (
                     <SelectItem key={me.id} value={me.id.toString()}>
                       {me.name}
                     </SelectItem>
@@ -465,15 +798,21 @@ export default function AdminDashboard() {
             <div className="md:col-span-2">
               <Label>Sub-Exams</Label>
               <div className="flex justify-end space-x-2 mb-2">
-                <Button size="sm" onClick={selectAllSubs}>Select All</Button>
-                <Button size="sm" variant="outline" onClick={deselectAllSubs}>Deselect All</Button>
+                <Button size="sm" onClick={selectAllSubs}>
+                  Select All
+                </Button>
+                <Button size="sm" variant="outline" onClick={deselectAllSubs}>
+                  Deselect All
+                </Button>
               </div>
-              <div className="w-full grid grid-cols-2 gap-2 max-h-64 overflow-auto border p-2 rounded text-xs">
-                {availableSubExams.map(se => (
-                  <div key={se.id} className="flex items-center">
+              <div className="w-full grid grid-cols-6 gap-2 max-h-150 overflow-auto border p-2 rounded text-xs">
+                {availableSubExams.map((se) => (
+                  <div key={se.id} className="flex items-center w-6 h-6">
                     <Input
                       type="checkbox"
-                      checked={selectedExamsForAssignment.includes(se.id.toString())}
+                      checked={selectedExamsForAssignment.includes(
+                        se.id.toString()
+                      )}
                       onChange={() => toggleSubExam(se.id)}
                     />
                     <span className="ml-2 whitespace-nowrap">{se.name}</span>
@@ -488,13 +827,16 @@ export default function AdminDashboard() {
             {/* Intern Selection */}
             <div className="w-1/3">
               <Label htmlFor="intern">Assign to Intern:</Label>
-              <Select onValueChange={(value) => setSelectedInternForAssignment(value)} value={selectedInternForAssignment || ''}>
+              <Select
+                onValueChange={(value) => setSelectedInternForAssignment(value)}
+                value={selectedInternForAssignment || ""}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select an intern" />
                 </SelectTrigger>
                 <SelectContent>
                   {users
-                    .filter((user) => user.role === 'intern')
+                    .filter((user) => user.role === "intern")
                     .map((user) => (
                       <SelectItem key={user.id} value={user.id}>
                         {user.email}
@@ -524,10 +866,10 @@ export default function AdminDashboard() {
                   <Calendar
                     mode="single"
                     selected={assignmentDueDate}
-                    onSelect={(date: Date | undefined) => setAssignmentDueDate(date)}
-                    disabled={(date) =>
-                      date < new Date()
+                    onSelect={(date: Date | undefined) =>
+                      setAssignmentDueDate(date)
                     }
+                    disabled={(date) => date < new Date()}
                     initialFocus
                   />
                 </PopoverContent>
@@ -535,7 +877,15 @@ export default function AdminDashboard() {
             </div>
 
             {/* Assign Button */}
-            <Button onClick={handleAssignExamsWithDueDate} disabled={selectedExamsForAssignment.length === 0 && !selectedMainExamId || !selectedInternForAssignment || !assignmentDueDate}>
+            <Button
+              onClick={handleAssignExamsWithDueDate}
+              disabled={
+                (selectedExamsForAssignment.length === 0 &&
+                  !selectedMainExamId) ||
+                !selectedInternForAssignment ||
+                !assignmentDueDate
+              }
+            >
               Assign Exams with Due Date
             </Button>
           </div>
@@ -562,7 +912,11 @@ export default function AdminDashboard() {
             </div>
             <div>
               <Label htmlFor="role">Role</Label>
-              <Select onValueChange={(value) => setNewRole(value as 'admin' | 'intern' | 'guest')}>
+              <Select
+                onValueChange={(value) =>
+                  setNewRole(value as "admin" | "intern" | "guest")
+                }
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
@@ -593,7 +947,15 @@ export default function AdminDashboard() {
                     <TableCell>{user.role}</TableCell>
                     <TableCell className="text-right">
                       <div className="space-x-2">
-                        <Select onValueChange={(value) => handleChangeRole(user.id, value as 'admin' | 'intern' | 'guest')} defaultValue={user.role}>
+                        <Select
+                          onValueChange={(value) =>
+                            handleChangeRole(
+                              user.id,
+                              value as "admin" | "intern" | "guest"
+                            )
+                          }
+                          defaultValue={user.role}
+                        >
                           <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Change Role" />
                           </SelectTrigger>
@@ -603,7 +965,11 @@ export default function AdminDashboard() {
                             <SelectItem value="guest">Guest</SelectItem>
                           </SelectContent>
                         </Select>
-                        <Button variant="destructive" size="sm" onClick={() => handleRemoveUser(user.id)}>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleRemoveUser(user.id)}
+                        >
                           <Trash className="mr-2 h-4 w-4" /> Remove
                         </Button>
                       </div>
@@ -616,48 +982,28 @@ export default function AdminDashboard() {
         </CardContent>
       </Card>
 
-      <Card className="mt-4">
+      <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Intern Workload</CardTitle>
-          <CardDescription>List of assigned works.</CardDescription>
+          <CardTitle>Intern Workload Management</CardTitle>
+          <CardDescription>View and manage intern assignments</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <Table className="min-w-full">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Intern Name</TableHead>
-                  <TableHead>Assigned Exam</TableHead>
-                  <TableHead>Due Date</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users
-                  .filter((user) => user.role === 'intern')
-                  .flatMap((user) =>
-                    (user.assignedExams || []).map((examId) => {
-                      const exam = exams.find((e) => e.id === examId);
-                      if (!exam) return null;
-                      return (
-                        <TableRow key={`${user.id}-${exam.id}`}>
-                          <TableCell>{user.email}</TableCell>
-                          <TableCell>{exam.mainExam}</TableCell>
-                          <TableCell>{format(new Date(), "PPP")}</TableCell>
-                          <TableCell>Pending</TableCell>
-                        </TableRow>
-                      );
-                    })
-                  )}
-              </TableBody>
-            </Table>
-          </div>
+          {isLoadingAssignments ? (
+            <div className="flex justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            </div>
+          ) : (
+            <WorkloadTable
+              assignments={assignments}
+              onDeleteAssignment={handleDeleteAssignment}
+            />
+          )}
         </CardContent>
       </Card>
 
-      <Card className="mt-4">
+      <Card>
         <CardHeader>
-          <CardTitle>Log Details</CardTitle>
+          <CardTitle>Activity Logs</CardTitle>
           <CardDescription>Audit trail of activities.</CardDescription>
         </CardHeader>
         <CardContent>
