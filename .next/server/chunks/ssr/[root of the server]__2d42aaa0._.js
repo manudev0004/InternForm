@@ -903,61 +903,27 @@ async function addSubExam(mainExamId, subExam) {
 }
 async function assignWork({ examId, subExamId = null, internIds, dueDate, assignedBy, notes = '', bulk = false }) {
     const batch = [];
-    const timestamp = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Timestamp"].now();
-    const dueTimestamp = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Timestamp"].fromDate(dueDate);
     for (const internId of internIds){
-        // Create assignment in assignments collection
         const assignment = {
             examId,
             subExamId: subExamId || null,
             internId,
             assignedBy,
-            dueDate: dueTimestamp,
-            assignedAt: timestamp,
+            dueDate: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Timestamp"].fromDate(dueDate),
             status: 'assigned',
             notes,
             history: [
                 {
                     action: 'assigned',
                     actorId: assignedBy,
-                    timestamp: timestamp,
+                    timestamp: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Timestamp"].now(),
                     details: {
                         notes
                     }
                 }
             ]
         };
-        // Add assignment to batch
-        const assignmentRef = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["addDoc"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["collection"])(db, 'assignments'), assignment);
-        // Update user's assignedExams array
-        const userRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["doc"])(db, 'users', internId);
-        const userDoc = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getDoc"])(userRef);
-        if (userDoc.exists()) {
-            const userData = userDoc.data();
-            const assignedExams = Array.isArray(userData.assignedExams) ? userData.assignedExams : [];
-            // Check if this exam is already assigned to avoid duplicates
-            const examExists = assignedExams.some((exam)=>(exam.id === examId || exam.examId === examId) && (!subExamId || exam.subExamId === subExamId));
-            if (!examExists) {
-                const newAssignment = {
-                    id: assignmentRef.id,
-                    examId,
-                    subExamId: subExamId || null,
-                    dueDate: dueTimestamp.toDate().toISOString(),
-                    assignedAt: timestamp.toDate().toISOString(),
-                    status: 'assigned',
-                    completed: false,
-                    notes
-                };
-                await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["updateDoc"])(userRef, {
-                    assignedExams: [
-                        ...assignedExams,
-                        newAssignment
-                    ],
-                    updatedAt: timestamp
-                });
-            }
-        }
-        batch.push(assignmentRef);
+        batch.push((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["addDoc"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["collection"])(db, 'assignments'), assignment));
     }
     return Promise.all(batch);
 }
@@ -1048,8 +1014,13 @@ async function restoreFromLog(logId) {
 // Implement restoration logic as needed
 // Fetch log, determine entity, and restore previous state
 }
-async function getAssignmentsForIntern(internId) {
-    const q = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["query"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["collection"])(db, 'assignments'), (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["where"])('internId', '==', internId));
+async function getAssignmentsForIntern(internId = '') {
+    let q;
+    if (internId) {
+        q = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["query"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["collection"])(db, 'assignments'), (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["where"])('internId', '==', internId));
+    } else {
+        q = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["query"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["collection"])(db, 'assignments'));
+    }
     const snap = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getDocs"])(q);
     return snap.docs.map((doc)=>({
             id: doc.id,
@@ -1457,8 +1428,8 @@ function InternDashboard() {
     const { watch, register, control, handleSubmit, setValue, formState: { errors } } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useForm"])({
         resolver: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$hookform$2f$resolvers$2f$zod$2f$dist$2f$zod$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["zodResolver"])(examSchema)
     });
-    const watchHasAgeLimit = watch("has_age_limit");
-    const watchHasCategoryRelaxation = watch("has_category_relaxation");
+    const watchHasAgeLimit = form.watch("subExams");
+    const watchHasCategoryRelaxation = form.watch("subExams");
     const watchConductingBody = watch("conducting_body");
     const watchExamSector = watch("exam_sector");
     const addSubExam = (copyIndex)=>{

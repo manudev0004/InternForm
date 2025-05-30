@@ -30,6 +30,9 @@ interface Assignment {
     subExamName: string;
     subExamCode: string;
   };
+  mainExamName: string;
+  subExamName: string;
+  subExamCode: string;
   history: Array<{
     action: string;
     actorId: string;
@@ -397,10 +400,7 @@ export default function AdminDashboard() {
       console.log("addLog succeeded:", payload);
     } catch (error) {
       console.error("addLog failed:", error, payload);
-      toast({
-        title: "Logging failed",
-        description: "Could not save log entry.",
-      });
+      console.log("Logging failed - Could not save log entry.");
       return;
     }
     try {
@@ -426,7 +426,7 @@ export default function AdminDashboard() {
     if (affectedExam) {
       await logAndRefresh({
         action: `Exam ${status}`,
-        actorId: user?.id || "admin",
+        actorId: user?.email || "admin",
         entityType: "exam",
         entityId: affectedExam.id,
         details: `Admin ${
@@ -452,7 +452,7 @@ export default function AdminDashboard() {
       setNewEmail("");
       await logAndRefresh({
         action: "User Added",
-        actorId: user?.id || "admin",
+        actorId: user?.email || "admin",
         entityType: "user",
         entityId: newUser.id,
         details: `Admin ${user?.email || "unknown"} added user ${
@@ -479,7 +479,7 @@ export default function AdminDashboard() {
     if (updatedUser) {
       await logAndRefresh({
         action: "User Role Changed",
-        actorId: user?.id || "admin",
+        actorId: user?.email || "admin",
         entityType: "user",
         entityId: updatedUser.id,
         details: `Admin ${user?.email || "unknown"} changed role of user ${
@@ -497,7 +497,7 @@ export default function AdminDashboard() {
     setUsers(users.filter((u) => u.id !== userId));
     await logAndRefresh({
       action: "User Removed",
-      actorId: user?.id || "admin",
+      actorId: user?.email || "admin",
       entityType: "user",
       entityId: removedUser.id,
       details: `Admin ${user?.email || "unknown"} removed user ${
@@ -523,8 +523,36 @@ export default function AdminDashboard() {
 
         console.log("Fetched assignments raw data:", assignmentsData);
 
-        setExams(examsFromDb);
-        setUsers(usersFromDb);
+        // Convert Firestore data to match Exam interface
+        const formattedExams = examsFromDb.map((exam: any) => ({
+          id: exam.id,
+          mainExam: exam.mainExam || exam.main_exam_name || '',
+          examCode: exam.examCode || exam.exam_code || '',
+          subExams: exam.subExams || [],
+          conductedBy: exam.conductedBy || exam.conducting_body || '',
+          examSector: exam.examSector || exam.exam_sector || '',
+          applicationPeriodStart: exam.applicationPeriodStart?.toDate ? exam.applicationPeriodStart.toDate() : new Date(),
+          applicationPeriodEnd: exam.applicationPeriodEnd?.toDate ? exam.applicationPeriodEnd.toDate() : new Date(),
+          status: exam.status || 'draft',
+          version: exam.version || 1,
+          effectiveDate: exam.effectiveDate?.toDate ? exam.effectiveDate.toDate() : new Date(),
+          eligibilityCriteria: exam.eligibilityCriteria || [],
+          dataSourceLink: exam.dataSourceLink || exam.website_link || '',
+          internNote: exam.internNote || '',
+          filledBy: exam.filledBy || '',
+          reviewStatus: exam.reviewStatus || 'Pending'
+        }));
+
+        // Convert Firestore data to match User interface
+        const formattedUsers = usersFromDb.map((user: any) => ({
+          id: user.id,
+          email: user.email || '',
+          role: (user.role as 'admin' | 'intern' | 'guest') || 'intern',
+          assignedExams: user.assignedExams || []
+        }));
+
+        setExams(formattedExams);
+        setUsers(formattedUsers);
         setLogs(normalizeLogs(logsFromDb));
 
         // Parse the notes field if it's a string and handle Firestore timestamps
@@ -589,7 +617,7 @@ export default function AdminDashboard() {
       // Log the deletion
       await addLog({
         action: "Assignment Deleted",
-        actorId: user.id,
+        actorId: user.email,
         entityType: "assignment",
         entityId: assignmentId,
         details: `Assignment ${assignmentId} was deleted by ${
@@ -625,7 +653,15 @@ export default function AdminDashboard() {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [isLoadingAssignments, setIsLoadingAssignments] = useState(false);
   const { user } = useAuth();
-  const db = getFirestore(firebaseApp);
+  
+  // Safe database initialization with null checking
+  const [db, setDb] = useState<any>(null);
+  
+  useEffect(() => {
+    if (firebaseApp) {
+      setDb(getFirestore(firebaseApp));
+    }
+  }, []);
 
   const [jsonMainExams] = useState(
     examList.exams as {
@@ -712,10 +748,10 @@ export default function AdminDashboard() {
     for (const subExam of subExamsToAssign) {
       await assignWork({
         examId: mainExam.id.toString(),
-        subExamId: subExam.id.toString(),
+        subExamId: `${mainExam.id}-${subExam.id}`, // Format: mainExamId-subExamId for auto-fill
         internIds: [selectedInternForAssignment],
         dueDate: assignmentDueDate,
-        assignedBy: user?.id || "admin",
+        assignedBy: user?.email || "admin",
         notes: JSON.stringify({
           mainExamName: mainExam.name,
           subExamName: subExam.name,
@@ -729,7 +765,7 @@ export default function AdminDashboard() {
     const subExamNames = subExamsToAssign.map((se) => se.name).join(", ");
     await logAndRefresh({
       action: "Exams Assigned",
-      actorId: user?.id || "admin",
+      actorId: user?.email || "admin",
       entityType: "assignment",
       entityId: subExamsToAssign.map((se) => se.id).join(","),
       details: `Assigned ${
@@ -1001,6 +1037,75 @@ export default function AdminDashboard() {
         </CardContent>
       </Card>
 
+      {/* Test Assignment Flow Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Test Assignment Flow</CardTitle>
+          <CardDescription>Debug and test the complete assignment workflow.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <Button 
+              onClick={async () => {
+                const { testAssignmentFlow } = await import('@/utils/test-assignment-flow');
+                await testAssignmentFlow();
+              }}
+              variant="outline"
+            >
+              Test Auto-fill Functionality
+            </Button>
+            <Button 
+              onClick={async () => {
+                const { simulateCompleteWorkflow } = await import('@/utils/test-assignment-flow');
+                await simulateCompleteWorkflow();
+              }}
+              variant="outline"
+            >
+              Simulate Complete Workflow
+            </Button>
+            <Button 
+              onClick={async () => {
+                // Quick demo assignment: SSC GD Constable to first intern
+                const intern = users.find(u => u.role === 'intern');
+                if (!intern) {
+                  alert('No intern found. Please add an intern user first.');
+                  return;
+                }
+                
+                const demoMainExam = jsonMainExams[0]; // SSC Exams
+                const demoSubExam = demoMainExam.sub_exams[0]; // SSC GD Constable
+                
+                try {
+                  await assignWork({
+                    examId: demoMainExam.id.toString(),
+                    subExamId: `${demoMainExam.id}-${demoSubExam.id}`,
+                    internIds: [intern.id],
+                    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+                    assignedBy: user?.email || "admin",
+                    notes: JSON.stringify({
+                      mainExamName: demoMainExam.name,
+                      subExamName: demoSubExam.name,
+                      subExamCode: demoSubExam.code,
+                    }),
+                  });
+                  
+                  alert(`Demo assignment created!\nAssigned: ${demoMainExam.name} - ${demoSubExam.name}\nTo: ${intern.email}\nIntern can now test the form at: /intern/${demoMainExam.id}-${demoSubExam.id}`);
+                } catch (error) {
+                  console.error('Error creating demo assignment:', error);
+                  alert('Error creating demo assignment. Check console for details.');
+                }
+              }}
+              variant="default"
+            >
+              Create Demo Assignment
+            </Button>
+            <div className="text-sm text-muted-foreground">
+              Open browser console to see test results. Demo assignment creates a real assignment for testing.
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Activity Logs</CardTitle>
@@ -1020,7 +1125,21 @@ export default function AdminDashboard() {
             </DialogDescription>
           </DialogHeader>
           {selectedExam && (
-            <ExamForm exam={selectedExam} onClose={handleCloseEditDialog} />
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-semibold">Exam Details</h4>
+                <p><strong>Name:</strong> {selectedExam.mainExam}</p>
+                <p><strong>Code:</strong> {selectedExam.examCode}</p>
+                <p><strong>Conducted By:</strong> {selectedExam.conductedBy}</p>
+                <p><strong>Sector:</strong> {selectedExam.examSector}</p>
+                <p><strong>Status:</strong> {selectedExam.status}</p>
+                <p><strong>Review Status:</strong> {selectedExam.reviewStatus}</p>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Note: Full exam editing will be available in a future update. 
+                For now, you can view exam details and use the assignment system to create new exam entries.
+              </p>
+            </div>
           )}
         </DialogContent>
       </Dialog>
