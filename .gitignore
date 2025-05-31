@@ -47,4 +47,3 @@ Thumbs.db
 # Misc
 coverage/
 *.tgz
-node_modules
